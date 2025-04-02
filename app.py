@@ -1,9 +1,24 @@
-from flask import Flask, render_template, request, send_file
-from docx import Document
-import uuid
-import os
+from flask import Flask, render_template, request, redirect, url_for, flash
+import sqlite3
+from datetime import datetime
+from pathlib import Path
 
 app = Flask(__name__)
+app.secret_key = 'clave_secreta_segura'
+
+DB_PATH = 'formulario.db'
+
+def init_db():
+    with sqlite3.connect(DB_PATH) as conn:
+        c = conn.cursor()
+        c.execute('''CREATE TABLE IF NOT EXISTS solicitudes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            solicitante_nombre TEXT,
+            solicitante_cedula TEXT,
+            fecha TEXT,
+            datos_json TEXT
+        )''')
+        conn.commit()
 
 @app.route('/')
 def formulario():
@@ -11,20 +26,29 @@ def formulario():
 
 @app.route('/enviar', methods=['POST'])
 def enviar():
-    nombre = request.form['nombre']
-    cedula = request.form['cedula']
-    motivo = request.form['motivo']
+    nombre = request.form.get('solicitante_nombre')
+    cedula = request.form.get('solicitante_cedula')
+    fecha = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    datos_completos = dict(request.form)
 
-    doc = Document('plantilla.docx')
-    for p in doc.paragraphs:
-        p.text = p.text.replace('{{nombre}}', nombre)
-        p.text = p.text.replace('{{cedula}}', cedula)
-        p.text = p.text.replace('{{motivo}}', motivo)
+    with sqlite3.connect(DB_PATH) as conn:
+        c = conn.cursor()
+        c.execute("SELECT fecha FROM solicitudes WHERE solicitante_cedula = ?", (cedula,))
+        resultado = c.fetchone()
 
-    filename = f'documento_{uuid.uuid4().hex}.docx'
-    doc.save(filename)
+        if resultado:
+            mensaje = f"La cédula {cedula} ya fue registrada anteriormente el {resultado[0]}."
+            flash(mensaje, "warning")
+            return redirect(url_for('formulario'))
 
-    return send_file(filename, as_attachment=True)
+        # Insertar nueva solicitud
+        c.execute("INSERT INTO solicitudes (solicitante_nombre, solicitante_cedula, fecha, datos_json) VALUES (?, ?, ?, ?)",
+                  (nombre, cedula, fecha, str(datos_completos)))
+        conn.commit()
+
+    flash("Solicitud registrada exitosamente", "success")
+    return redirect(url_for('formulario'))
 
 if __name__ == '__main__':
-    app.run()
+    init_db()
+    app.run(debug=True)
