@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Solicitud de Ayuda Social</title>
+</head>
+<body>
+    <h1>Formulario de Solicitud de Ayuda Económica</h1>
+    <form action="/enviar" method="POST">
+        <h2>Solicitante</h2>
+        Nombre: <input type="text" name="solicitante_nombre"><br>
+        Edad: <input type="text" name="solicitante_edad"><br>
+        Cédula: <input type="text" name="solicitante_cedula"><br>
+        Seguro Social: <input type="text" name="solicitante_seguro"><br>
+        Dirección: <input type="text" name="solicitante_direccion"><br>
+        Teléfono residencial: <input type="text" name="telefono_residencial"><br>
+        Oficina: <input type="text" name="telefono_oficina"><br>
+        Ocupación: <input type="text" name="ocupacion"><br>
+        Salario Bruto: <input type="text" name="salario_bruto"><br>
+        Salario Neto: <input type="text" name="salario_neto"><br>
+        Lugar de Trabajo: <input type="text" name="lugar_trabajo"><br><br>
+
+        <h2>Beneficiario</h2>
+        Nombre: <input type="text" name="beneficiario_nombre"><br>
+        Edad: <input type="text" name="beneficiario_edad"><br>
+        Cédula: <input type="text" name="beneficiario_cedula"><br>
+        Seguro Social: <input type="text" name="beneficiario_seguro"><br><br>
+
+        <h2>Motivo de Referencia</h2>
+        Ayuda económica: <input type="checkbox" name="ayuda_economica"><br>
+        Materiales: <input type="checkbox" name="materiales"><br>
+        Otros: <input type="checkbox" name="otros"> Especifique: <input type="text" name="otros_especificar"><br>
+        Problema presentado: <textarea name="problema"></textarea><br><br>
+
+        <h2>Condición Económica</h2>
+        Ingreso Esposo: <input type="text" name="ingreso_esposo"><br>
+        Ingreso Esposa: <input type="text" name="ingreso_esposa"><br>
+        Pensión por hijo: <input type="text" name="pension_hijo"><br>
+        Otros ingresos: <input type="text" name="otros_ingresos"><br>
+        Especifique: <input type="text" name="otros_ingresos_especificar"><br><br>
+
+        Egresos Vivienda: <input type="text" name="egreso_vivienda"><br>
+        Luz: <input type="text" name="egreso_luz"><br>
+        Agua: <input type="text" name="egreso_agua"><br>
+        Gas: <input type="text" name="egreso_gas"><br>
+        Escuela: <input type="text" name="egreso_escuela"><br>
+        Transporte: <input type="text" name="egreso_transporte"><br>
+        Alimentación: <input type="text" name="egreso_alimentacion"><br>
+        Otros: <input type="text" name="egreso_otros"><br><br>
+
+        <h2>Diagnóstico Social</h2>
+        <textarea name="diagnostico"></textarea><br><br>
+
+        <h2>Evaluación y Recomendación</h2>
+        <textarea name="evaluacion"></textarea><br><br>
+
+        Referido por Junta Comunal: <input type="text" name="referido_junta"><br>
+        Otros: <input type="text" name="referido_otros"><br><br>
+
+        <h2>Uso Interno</h2>
+        Subsidio asignado: <input type="text" name="subsidio"><br>
+        Aprobado por: <input type="text" name="aprobado_por"><br>
+        Referido a la oficina de: <input type="text" name="referido_oficina"><br>
+        Recibido por: <input type="text" name="recibido_por"><br>
+        Fecha recibido: <input type="date" name="fecha_recibido"><br>
+        Tramitado por: <input type="text" name="tramitado_por"><br>
+        Fecha tramitado: <input type="date" name="fecha_tramitado"><br>
+        Observaciones: <textarea name="observaciones"></textarea><br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
